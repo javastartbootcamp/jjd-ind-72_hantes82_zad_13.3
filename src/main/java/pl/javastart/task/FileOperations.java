@@ -12,8 +12,9 @@ public class FileOperations {
     public static List<CurrencyCourse> getCurrencyCoursesFromFile(String filePath) {
         List<CurrencyCourse> currencyCourses = new ArrayList<>();
         File file = new File(filePath);
-        try {
-            Scanner scan = new Scanner(file);
+        try (
+                Scanner scan = new Scanner(file);
+                ) {
             while (scan.hasNextLine()) {
                 String line = scan.nextLine();
                 String[] arrayCurrency = line.split(";");
@@ -29,8 +30,10 @@ public class FileOperations {
     public static List<Product> getProductsFromFile(String filePath) {
         List<Product> products = new ArrayList<>();
         File file = new File(filePath);
-        try {
-            Scanner scan = new Scanner(file);
+        try (
+                Scanner scan = new Scanner(file);
+                ) {
+
             while (scan.hasNextLine()) {
                 String line = scan.nextLine();
                 String[] arrayCurrency = line.split(";");

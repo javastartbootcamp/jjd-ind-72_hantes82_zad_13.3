@@ -11,14 +11,21 @@ class Statistics {
         List<Product> currenciesChangedForProds = new ArrayList<>();
         for (int i = 0; i < products.size(); i++) {
             String tempCurr = products.get(i).getCurrency();
-            for (int j = 0; j < currencies.size(); j++) {
-                if (currencies.get(j).getName().equals(tempCurr)) {
-                    BigDecimal priceInEuro = (products.get(i).getPrice()).divide((currencies.get(j).getCourse()), 5);
-                    currenciesChangedForProds.add(new Product(products.get(i).getName(), priceInEuro, "EUR"));
-                }
-            }
+            BigDecimal priceInOtherCurrency = products.get(i).getPrice();
+            BigDecimal priceInEuro = searchCurrency(priceInOtherCurrency, tempCurr, currencies);
+            currenciesChangedForProds.add(new Product(products.get(i).getName(), priceInEuro, "EUR"));
+
         }
         return currenciesChangedForProds;
+    }
+
+    private static BigDecimal searchCurrency(BigDecimal priceInOtherCurrency, String currency, List<CurrencyCourse> currencies) {
+        for (CurrencyCourse currencyCourse : currencies) {
+            if (currencyCourse.getName().equals(currency)) {
+                return priceInOtherCurrency.divide((currencyCourse.getCourse()), 5);
+            }
+        }
+        return null;
     }
 
     public static void showStatistics(List<CurrencyCourse> currencies, List<Product> products) {
