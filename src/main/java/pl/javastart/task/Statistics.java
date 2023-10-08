@@ -12,17 +12,18 @@ class Statistics {
         for (int i = 0; i < products.size(); i++) {
             String tempCurr = products.get(i).getCurrency();
             BigDecimal priceInOtherCurrency = products.get(i).getPrice();
-            BigDecimal priceInEuro = searchCurrency(priceInOtherCurrency, tempCurr, currencies);
+            BigDecimal priceInEuro = priceInOtherCurrency.divide(searchCurrencyCourse(tempCurr,
+                    currencies), 5);
             currenciesChangedForProds.add(new Product(products.get(i).getName(), priceInEuro, "EUR"));
 
         }
         return currenciesChangedForProds;
     }
 
-    private static BigDecimal searchCurrency(BigDecimal priceInOtherCurrency, String currency, List<CurrencyCourse> currencies) {
+    private static BigDecimal searchCurrencyCourse(String currency, List<CurrencyCourse> currencies) {
         for (CurrencyCourse currencyCourse : currencies) {
             if (currencyCourse.getName().equals(currency)) {
-                return priceInOtherCurrency.divide((currencyCourse.getCourse()), 5);
+                return currencyCourse.getCourse();
             }
         }
         return null;
